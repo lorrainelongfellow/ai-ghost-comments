@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspSource}}; script-src {{cspSource}};">
+  <link rel="stylesheet" href="{{stylesheet}}">
+  <title>AI 幽灵注释设置</title>
+</head>
+<body>
+  <main>
+    <p id="notice" class="notice" role="status" hidden></p>
+    <section aria-labelledby="model-label">
+      <div class="row section-title">
+        <label for="model" id="model-label">注释模型</label>
+        <button id="refresh" class="secondary" type="button">刷新列表</button>
+      </div>
+      <select id="model" aria-describedby="model-status" disabled>
+        <option value="">跟随 Antigravity 当前模型</option>
+      </select>
+      <p id="model-status" class="hint" role="status"></p>
+    </section>
+
+    <section>
+      <label for="density" class="section-title">注释密度</label>
+      <select id="density" disabled>
+        <option value="all">逐行</option>
+        <option value="key">关键逻辑</option>
+      </select>
+      <label class="switch">
+        <input id="auto-restore" type="checkbox" disabled>
+        <span>
+          <span class="section-title">自动恢复注释</span>
+          <span class="hint">打开文件时恢复上次显示的缓存。</span>
+        </span>
+      </label>
+    </section>
+
+    <section aria-labelledby="file-label">
+      <div class="row section-title">
+        <h2 id="file-label">当前文件</h2>
+        <kbd id="shortcut" aria-label="显示或隐藏注释快捷键"></kbd>
+      </div>
+      <p class="filename" id="file-name">请先打开代码文件</p>
+      <p class="hint" id="file-status" role="status"></p>
+      <div class="actions">
+        <button id="toggle" type="button" disabled>显示全文</button>
+        <button id="complete" class="secondary" type="button" hidden>补齐注释</button>
+        <button id="regenerate" class="secondary" type="button" disabled>重新生成全文</button>
+      </div>
+      <div class="actions">
+        <button id="annotate-function" class="secondary" type="button" disabled>注释当前函数</button>
+        <button id="annotate-selection" class="secondary" type="button" disabled>注释选区</button>
+      </div>
+    </section>
+
+    <section>
+      <details>
+        <summary class="section-title">Antigravity CLI</summary>
+        <form id="cli-form">
+          <label for="cli-path">可执行文件路径</label>
+          <input id="cli-path" type="text" placeholder="留空自动查找" spellcheck="false" autocomplete="off">
+          <div class="actions">
+            <button id="browse" class="secondary" type="button">浏览…</button>
+            <button type="submit">保存路径</button>
+          </div>
+        </form>
+      </details>
+    </section>
+  </main>
+  <script src="{{script}}"></script>
+</body>
+</html>

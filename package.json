@@ -1,0 +1,136 @@
+{
+  "name": "ai-ghost-comments",
+  "displayName": "AI 幽灵注释",
+  "description": "使用 Antigravity CLI 的 Gemini 账号会话，为代码显示可切换的中文行尾解释。",
+  "version": "0.5.4",
+  "publisher": "local-ai-tools",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lorrainelongfellow/ai-ghost-comments.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./src/extension.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "scripts": {
+    "check": "node --check src/extension.js && node --check src/gemini.js && node --check src/cache.js && node --check src/source.js && node --check src/annotations.js && node --check src/settings-view.js && node --check media/settings.js",
+    "package": "npx --yes --package @vscode/vsce@4.1.1 vsce package --no-dependencies"
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aiGhostComments",
+          "title": "AI 幽灵注释",
+          "icon": "media/ghost-comments.png"
+        }
+      ]
+    },
+    "views": {
+      "aiGhostComments": [
+        {
+          "id": "aiGhostComments.settings",
+          "type": "webview",
+          "name": "设置",
+          "icon": "media/ghost-comments.png",
+          "contextualTitle": "AI 幽灵注释"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aiGhostComments.openSettings",
+        "title": "打开设置",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.toggle",
+        "title": "显示或隐藏",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.regenerate",
+        "title": "重新生成全文",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.selectModel",
+        "title": "选择模型",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.annotateFunction",
+        "title": "注释当前函数",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.annotateSelection",
+        "title": "注释选区",
+        "category": "AI 幽灵注释"
+      },
+      {
+        "command": "aiGhostComments.complete",
+        "title": "补齐注释",
+        "category": "AI 幽灵注释"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "aiGhostComments.toggle",
+        "key": "alt+g",
+        "mac": "cmd+alt+g",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "aiGhostComments.toggle",
+          "when": "editorTextFocus",
+          "group": "navigation@30"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AI 幽灵注释",
+      "properties": {
+        "aiGhostComments.autoRestore": {
+          "type": "boolean",
+          "default": true,
+          "scope": "application",
+          "description": "打开文件时，恢复上次显示的本地注释缓存。"
+        },
+        "aiGhostComments.density": {
+          "type": "string",
+          "enum": ["all", "key"],
+          "enumDescriptions": ["逐行", "关键逻辑"],
+          "default": "all",
+          "scope": "application",
+          "description": "控制编辑器行尾注释的显示密度。"
+        },
+        "aiGhostComments.cliPath": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "description": "Antigravity CLI 可执行文件的绝对路径。留空时自动查找本机 agy。"
+        },
+        "aiGhostComments.model": {
+          "type": "string",
+          "default": "",
+          "scope": "application",
+          "description": "可选的 Antigravity 模型 ID。留空时使用已登录账号在 CLI 中选择的模型。"
+        }
+      }
+    }
+  }
+}
